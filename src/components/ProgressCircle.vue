@@ -22,8 +22,8 @@
       <circle :r="innerCircleRadius"
               :cx="radius"
               :cy="radius"
-              fill="transparent"
-              :stroke="innerColor"
+              :fill="innerColor"
+              :stroke="circleColor"
               :stroke-dasharray="circumference"
               stroke-dashoffset="0"
               stroke-linecap="round"
@@ -32,7 +32,7 @@
               :r="innerCircleRadius"
               :cx="radius"
               :cy="radius"
-              fill="transparent"
+              :fill="innerColor"
               :stroke="'url(#radial-gradient' + _uid + ')'"
               :stroke-dasharray="circumference"
               :stroke-dashoffset="circumference"
@@ -80,10 +80,15 @@ export default {
       required: false,
       default: 1000
     },
-    innerColor: {
+    circleColor: {
       type: String,
       required: false,
       default: '#323232'
+    },
+    innerColor: {
+      type: String,
+      required: false,
+      default: 'transparent'
     }
   },
 

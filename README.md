@@ -30,11 +30,12 @@ export default {
 ```
 <progress-circle :diameter="cp_diameter"
                  :completed-steps="cp_completedSteps"
-                 :inner-color="cp_innerColor"
+                 :circle-color="cp_circleColor"
                  :start-color="cp_startColor"
                  :stop-color="cp_stopColor"
                  :circle-width="cp_circleWidth"
                  :animation-duration="cp_animationDuration"
+                 :inner-color="cp_innerColor"
                  :total-steps="cp_totalSteps">
    <p>Total steps: {{ cp_totalSteps }}</p>
    <p>Completed steps: {{ cp_completedSteps }}</p>
@@ -47,9 +48,10 @@ export default {
 | `completed-steps` | `number` | **REQUIRED**: number of completed steps |
 | `total-steps` | `number` | **REQUIRED**: number of total steps |
 | `diameter` | `number` | (px) diameter of circle component) |
-| `inner-color` | `String` | inner circle color |
+| `circle-color` | `String` | inner circle color (when no progress) |
 | `start-color` | `String` | leading color for progress bar |
 | `stop-color` | `String` | trailing color for progress bar |
+| `inner-color` | `String` | Color inside the circle (by default transparent) |
 | `circle-width` | `number` | (px) circle width |
 | `animation-duration` | `number` | (ms) duration of animation when progress change |
 

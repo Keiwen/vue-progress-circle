@@ -9,11 +9,12 @@
 
                 <progress-circle :diameter="cp_diameter"
                                  :completed-steps="cp_completedSteps"
-                                 :inner-color="cp_innerColor"
+                                 :circle-color="cp_circleColor"
                                  :start-color="cp_startColor"
                                  :stop-color="cp_stopColor"
                                  :circle-width="cp_circleWidth"
                                  :animation-duration="cp_animationDuration"
+                                 :inner-color="cp_innerColor"
                                  :total-steps="cp_totalSteps">
                    <p>Total steps: {{ cp_totalSteps }}</p>
                    <p>Completed steps: {{ cp_completedSteps }}</p>
@@ -38,14 +39,19 @@
 
                 <br/>
 
-                <label for="cp_innerColor">Inner color:</label>
-                <input type="text" v-model="cp_innerColor" id="cp_innerColor"/>
+                <label for="cp_circleColor">Circle color:</label>
+                <input type="text" v-model="cp_circleColor" id="cp_circleColor"/>
 
                 <label for="cp_startColor">Start color:</label>
                 <input type="text" v-model="cp_startColor" id="cp_startColor"/>
 
                 <label for="cp_stopColor">Stop color:</label>
                 <input type="text" v-model="cp_stopColor" id="cp_stopColor"/>
+
+                <label for="cp_innerColor">Inner color:</label>
+                <input type="text" v-model="cp_innerColor" id="cp_innerColor"/>
+
+                <br/>
 
                 <label for="cp_animationDuration">Animation duration:</label>
                 <input type="number" v-model="cp_animationDuration" id="cp_animationDuration"/>
@@ -70,9 +76,10 @@
         cp_completedSteps: 6,
         cp_startColor: '#FF0000',
         cp_stopColor: '#0000FF',
-        cp_innerColor: '#000000',
+        cp_circleColor: '#000000',
         cp_circleWidth: 15,
         cp_animationDuration: 1000,
+        cp_innerColor: 'transparent',
         cp_diameter: 200
       }
     }

@@ -11,12 +11,12 @@ npm install --save vue-progress-circle
 ```
 - import components
 ```
-import { CircleProgress } from 'vue-progress-circle'
+import { ProgressCircle } from 'vue-progress-circle'
 ```
 - declare use or imported components in your vue script
 ```
 export default {
-    components: { CircleProgress },
+    components: { ProgressCircle },
     methods: ...
 }
 ```

@@ -1,9 +1,9 @@
 <template>
-  <div class="radial-progress-container" :style="containerStyle">
-    <div class="radial-progress-inner" :style="innerCircleStyle">
+  <div class="circle-progress-container" :style="containerStyle">
+    <div class="circle-progress-inner" :style="innerCircleStyle">
       <slot></slot>
     </div>
-    <svg class="radial-progress-bar"
+    <svg class="circle-progress-bar"
          :width="diameter"
          :height="diameter"
          version="1.1"
@@ -15,7 +15,7 @@
                         :cx="gradient.cx"
                         :cy="gradient.cy"
                         :r="gradient.r">
-          <stop offset="30%" :stop-color="startColor"/>
+          <stop offset="50%" :stop-color="startColor"/>
           <stop offset="100%" :stop-color="stopColor"/>
         </radialGradient>
       </defs>
@@ -23,7 +23,7 @@
               :cx="radius"
               :cy="radius"
               fill="transparent"
-              :stroke="innerStrokeColor"
+              :stroke="innerColor"
               :stroke-dasharray="circumference"
               stroke-dashoffset="0"
               stroke-linecap="round"
@@ -70,37 +70,27 @@ export default {
       required: false,
       default: '#429321'
     },
-    strokeWidth: {
+    circleWidth: {
       type: Number,
       required: false,
       default: 10
     },
-    animateSpeed: {
+    animationDuration: {
       type: Number,
       required: false,
       default: 1000
     },
-    innerStrokeColor: {
+    innerColor: {
       type: String,
       required: false,
       default: '#323232'
-    },
-    fps: {
-      type: Number,
-      required: false,
-      default: 60
-    },
-    timingFunc: {
-      type: String,
-      required: false,
-      default: 'linear'
     }
   },
 
   data () {
     return {
       gradient: {
-        fx: 0.99,
+        fx: 1,
         fy: 0.5,
         cx: 0.5,
         cy: 0.5,
@@ -142,7 +132,7 @@ export default {
     },
 
     innerCircleDiameter () {
-      return this.diameter - (this.strokeWidth * 2)
+      return this.diameter - (this.circleWidth * 2)
     },
 
     innerCircleRadius () {
@@ -150,11 +140,11 @@ export default {
     },
 
     totalPoints () {
-      return this.animateSpeed / this.animationIncrements
+      return this.animationDuration / this.animationIncrements
     },
 
     animationIncrements () {
-      return 1000 / this.fps
+      return 1000 / 60
     },
 
     hasGradient () {
@@ -172,9 +162,9 @@ export default {
       return {
         height: `${this.diameter}px`,
         width: `${this.diameter}px`,
-        strokeWidth: `${this.strokeWidth}px`,
+        strokeWidth: `${this.circleWidth}px`,
         strokeDashoffset: this.strokeDashoffset,
-        transition: `stroke-dashoffset ${this.animateSpeed}ms ${this.timingFunc}`
+        transition: `stroke-dashoffset ${this.animationDuration}ms linear`
       }
     },
 
@@ -182,7 +172,7 @@ export default {
       return {
         height: `${this.diameter}px`,
         width: `${this.diameter}px`,
-        strokeWidth: `${this.strokeWidth}px`
+        strokeWidth: `${this.circleWidth}px`
       }
     },
 
@@ -271,7 +261,7 @@ export default {
       this.changeProgress({ isAnimate: true })
     },
 
-    strokeWidth () {
+    circleWidth () {
       this.changeProgress({ isAnimate: true })
     }
   },
@@ -283,14 +273,13 @@ export default {
 </script>
 
 <style>
-.radial-progress-container {
+.circle-progress-container {
   position: relative;
 }
 
-.radial-progress-inner {
+.circle-progress-inner {
   position: absolute;
   top: 0; right: 0; bottom: 0; left: 0;
-  position: absolute;
   border-radius: 50%;
   margin: 0 auto;
   display: flex;

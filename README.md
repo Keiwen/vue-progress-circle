@@ -1,72 +1,64 @@
-# vue-radial-progress [![npm package](https://img.shields.io/npm/v/vue-radial-progress.svg)](https://www.npmjs.com/package/vue-radial-progress)
+# vue-progress-circle
 
-> A radial progress bar component for Vue.js. Uses SVG and javascript to animate a radial progress bar with a gradient.
+Circle progress bar component
 
-[Live Demo](https://wyzant-dev.github.io/vue-radial-progress/)
+[Live demo here](https://keiwen.github.io/vue-progress-circle/)
 
-# Requirements
-
-- [Vue.js](https://github.com/vuejs/vue) `^1.0.0` (Compatible with Vue 1.0 or 2.0)
-- A module bundler such as [webpack](https://github.com/webpack/webpack) or use the minified version on its own.
-
-# Installation
-
-``` bash
-$ npm install --save vue-radial-progress
+## Global use
+- npm install
 ```
-
-# Usage
-``` html
-<template>
-  <radial-progress-bar :diameter="200"
-                       :completed-steps="completedSteps"
-                       :total-steps="totalSteps">
-   <p>Total steps: {{ totalSteps }}</p>
-   <p>Completed steps: {{ completedSteps }}</p>
-  </radial-progress-bar>
-</template>
-
-<script>
-import RadialProgressBar from 'vue-radial-progress'
-
+npm install --save vue-progress-circle
+```
+- import components
+```
+import { CircleProgress } from 'vue-progress-circle'
+```
+- declare use or imported components in your vue script
+```
 export default {
-  data () {
-    return {
-      completedSteps: 0,
-      totalSteps: 10
-    }
-  },
-
-  components: {
-    RadialProgressBar
-  }
+    components: { CircleProgress },
+    methods: ...
 }
-</script>
+```
+- Use components as described below
+
+## Components
+### Progress circle
+```
+<progress-circle completed-steps="5" total-steps="10"></progress-circle>
+```
+```
+<progress-circle :diameter="cp_diameter"
+                 :completed-steps="cp_completedSteps"
+                 :inner-color="cp_innerColor"
+                 :start-color="cp_startColor"
+                 :stop-color="cp_stopColor"
+                 :circle-width="cp_circleWidth"
+                 :animation-duration="cp_animationDuration"
+                 :total-steps="cp_totalSteps">
+   <p>Total steps: {{ cp_totalSteps }}</p>
+   <p>Completed steps: {{ cp_completedSteps }}</p>
+</progress-circle>
 ```
 
-# Props
 
-Name | Default value | Description
----|:---:|---
-`diameter` | `200` | Diameter of the progress bar circle in pixels.
-`totalSteps` | `10` | Total number of steps to complete progress bar.
-`completedSteps` | `0` | Number of completed steps in the progress bar.
-`startColor` | `#bbff42` | The color of the leading edge of the progress bar gradient.
-`stopColor` | `#429321` | The secondary color of the progress bar gradient.
-`innerStrokeColor` | `#323232` | Background color of the progress bar.
-`strokeWidth` | `10` | The width of the progress bar.
-`animateSpeed` | `1000` | The amount of time in milliseconds to animate one step.
-`fps` | `60` | The frames per second that the animation should run.
-`timingFunc` | `linear` | The transition timing function to use for the CSS transition. See [transition-timing-function](https://developer.mozilla.org/en-US/docs/Web/CSS/transition-timing-function).
+| Prop | Type | Note
+| :--- | :--- | ---: |
+| `completed-steps` | `number` | **REQUIRED**: number of completed steps |
+| `total-steps` | `number` | **REQUIRED**: number of total steps |
+| `diameter` | `number` | (px) diameter of circle component) |
+| `inner-color` | `String` | inner circle color |
+| `start-color` | `String` | leading color for progress bar |
+| `stop-color` | `String` | trailing color for progress bar |
+| `circle-width` | `number` | (px) circle width |
+| `animation-duration` | `number` | (ms) duration of animation when progress change |
 
-# Lint
+This component also provide a slot where you can insert any html code,
+to be displayed inside the circle
 
-  > npm run lint
-
-# Dev
-
-  > npm run dev
-
-# License
-
-[The MIT License](LICENSE)
+## Contribution
+- Fork the repository
+- Run `npm install`
+- You can run `npm run dev`, site is at http://localhost:8081.
+- Do your stuff
+- When you're done, run `npm run build` command and commit your work for a pull request.

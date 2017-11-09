@@ -1,7 +1,8 @@
 <template>
   <div class="circle-progress-container" :style="containerStyle">
     <div class="circle-progress-inner" :style="innerCircleStyle">
-      <slot></slot>
+      <span v-if="innerDisplay === 'percent'" :style="percentStyle">{{ finishedPercentageRounded }}</span>
+      <slot v-if="innerDisplay === 'slot' || innerDisplay === ''"></slot>
     </div>
     <svg class="circle-progress-bar"
          :width="diameter"
@@ -48,7 +49,7 @@ export default {
     diameter: {
       type: Number,
       required: false,
-      default: 200
+      default: 100
     },
     totalSteps: {
       type: Number,
@@ -63,12 +64,12 @@ export default {
     startColor: {
       type: String,
       required: false,
-      default: '#bbff42'
+      default: '#FF0000'
     },
     stopColor: {
       type: String,
       required: false,
-      default: '#429321'
+      default: '#0000FF'
     },
     circleWidth: {
       type: Number,
@@ -83,7 +84,17 @@ export default {
     circleColor: {
       type: String,
       required: false,
-      default: '#323232'
+      default: '#000000'
+    },
+    innerDisplay: {
+      type: String,
+      required: false,
+      default: 'slot'
+    },
+    percentColor: {
+      type: String,
+      required: false,
+      default: 'inherit'
     },
     innerColor: {
       type: String,
@@ -126,6 +137,10 @@ export default {
 
     finishedPercentage () {
       return this.stepSize * this.completedSteps
+    },
+
+    finishedPercentageRounded () {
+      return Math.round(this.finishedPercentage)
     },
 
     circleSlice () {
@@ -178,6 +193,14 @@ export default {
         height: `${this.diameter}px`,
         width: `${this.diameter}px`,
         strokeWidth: `${this.circleWidth}px`
+      }
+    },
+
+    percentStyle () {
+      return {
+        fontSize: `${this.diameter / 2}px`,
+        color: `${this.percentColor}`,
+        display: 'block'
       }
     },
 
@@ -292,4 +315,5 @@ export default {
   align-items: center;
   justify-content: center;
 }
+
 </style>

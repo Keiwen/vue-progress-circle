@@ -36,6 +36,8 @@ export default {
                  :circle-width="cp_circleWidth"
                  :animation-duration="cp_animationDuration"
                  :inner-color="cp_innerColor"
+                 :inner-display="cp_innerDisplay"
+                 :percent-color="cp_percentColor"
                  :total-steps="cp_totalSteps">
    <p>Total steps: {{ cp_totalSteps }}</p>
    <p>Completed steps: {{ cp_completedSteps }}</p>
@@ -47,15 +49,17 @@ export default {
 | :--- | :--- | ---: |
 | `completed-steps` | `number` | **REQUIRED**: number of completed steps |
 | `total-steps` | `number` | **REQUIRED**: number of total steps |
-| `diameter` | `number` | (px) diameter of circle component) |
-| `circle-color` | `String` | inner circle color (when no progress) |
-| `start-color` | `String` | leading color for progress bar |
-| `stop-color` | `String` | trailing color for progress bar |
-| `inner-color` | `String` | Color inside the circle (by default transparent) |
-| `circle-width` | `number` | (px) circle width |
-| `animation-duration` | `number` | (ms) duration of animation when progress change |
+| `diameter` | `number` | (px) diameter of circle component (default 100) |
+| `circle-color` | `String` | inner circle color (when no progress, default black) |
+| `start-color` | `String` | leading color for progress bar (default red) |
+| `stop-color` | `String` | trailing color for progress bar (default blue) |
+| `inner-color` | `String` | Color inside the circle (default transparent) |
+| `circle-width` | `number` | (px) circle width (default 10) |
+| `animation-duration` | `number` | (ms) duration of animation when progress change (default 1000) |
+| `inner-display` | `String` | Change inner circle filling. By default or 'slot', it will use provided slot (or nothing). 'Percent' will display progress percent rounded value |
+| `percent-color` | `String` | Change color of progress percent if displayed (see inner-display, default inherit) |
 
-This component also provide a slot where you can insert any html code,
+BY default, this component provide a slot where you can insert any html code
 to be displayed inside the circle
 
 ## Contribution

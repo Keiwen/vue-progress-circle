@@ -1,4 +1,6 @@
 # vue-progress-circle
+[![npm](https://img.shields.io/npm/v/vue-progress-circle.svg)](https://www.npmjs.com/package/vue-progress-circle)
+[![npm](https://img.shields.io/npm/dt/vue-progress-circle.svg)](https://www.npmjs.com/package/vue-progress-circle)
 
 Circle progress bar component
 

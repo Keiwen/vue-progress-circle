@@ -1,16 +1,161 @@
+<script setup>
+import { ref, computed, watch, onMounted, defineProps } from 'vue'
+
+const props = defineProps({
+  diameter: { type: Number, default: 100 },
+  totalSteps: { type: Number, required: true, default: 10 },
+  completedSteps: { type: Number, required: true, default: 0 },
+  startColor: { type: String, default: '#FF0000' },
+  stopColor: { type: String, default: '#0000FF' },
+  circleWidth: { type: Number, default: 10 },
+  animationDuration: { type: Number, default: 1000 },
+  circleColor: { type: String, default: '#000000' },
+  innerDisplay: { type: String, default: 'slot' },
+  percentColor: { type: String, default: 'inherit' },
+  innerColor: { type: String, default: 'transparent' }
+})
+
+const gradient = ref({
+  fx: 1,
+  fy: 0.5,
+  cx: 0.5,
+  cy: 0.5,
+  r: 0.65
+})
+const gradientAnimation = ref(null)
+const currentAngle = ref(0)
+const strokeDashoffset = ref(0)
+const animationIncrements = ref(1000 / 60)
+const generatedUid = ref('')
+
+// computed
+const radius = computed(() => { return props.diameter / 2 })
+const innerCircleDiameter = computed(() => { return props.diameter - (props.circleWidth * 2) })
+const circumference = computed(() => { return Math.PI * innerCircleDiameter.value })
+const finishedPercentage = computed(() => { return stepSize.value * props.completedSteps })
+const finishedPercentageRounded = computed(() => { return Math.round(finishedPercentage.value) })
+const circleSlice = computed(() => { return (2 * Math.PI / props.totalSteps) })
+const totalPoints = computed(() => { return (props.animationDuration / animationIncrements.value) })
+const animateSlice = computed(() => { return circleSlice.value / totalPoints.value })
+const innerCircleRadius = computed(() => { return innerCircleDiameter.value / 2 })
+const stepSize = computed(() => {
+  if (props.totalSteps === 0) {
+    return 0
+  }
+  return 100 / props.totalSteps
+})
+const containerStyle = computed(() => {
+  return {
+    height: `${props.diameter}px`,
+    width: `${props.diameter}px`
+  }
+})
+const progressStyle = computed(() => {
+  return {
+    height: `${props.diameter}px`,
+    width: `${props.diameter}px`,
+    strokeWidth: `${props.circleWidth}px`,
+    strokeDashoffset: strokeDashoffset.value,
+    transition: `stroke-dashoffset ${props.animationDuration}ms linear`
+  }
+})
+const strokeStyle = computed(() => {
+  return {
+    height: `${props.diameter}px`,
+    width: `${props.diameter}px`,
+    strokeWidth: `${props.circleWidth}px`
+  }
+})
+const percentStyle = computed(() => {
+  return {
+    fontSize: `${props.diameter / 2}px`,
+    color: `${props.percentColor}`,
+    display: 'block'
+  }
+})
+const innerCircleStyle = computed(() => {
+  return {
+    width: `${innerCircleDiameter.value}px`
+  }
+})
+
+// methods
+const getPointOfCircle = (angle) => {
+  const radius = 0.5
+  const x = radius + (radius * Math.cos(angle))
+  const y = radius + (radius * Math.sin(angle))
+  return { x, y }
+}
+const gotoPoint = () => {
+  const point = getPointOfCircle(currentAngle.value)
+  gradient.value.fx = point.x
+  gradient.value.fy = point.y
+}
+const gotoNextStep = () => {
+  currentAngle.value = props.completedSteps * circleSlice.value
+  gotoPoint()
+}
+const changeProgress = (isAnimate = true) => {
+  strokeDashoffset.value = ((100 - finishedPercentage.value) / 100) * circumference.value
+  if (gradientAnimation.value) {
+    clearInterval(gradientAnimation.value)
+  }
+  if (!isAnimate) {
+    gotoNextStep()
+    return
+  }
+  const angleOffset = (props.completedSteps - 1) * circleSlice.value
+  let i = (currentAngle.value - angleOffset) / animateSlice.value
+  const incrementer = Math.abs(i - totalPoints.value) / totalPoints.value
+  const isMoveForward = i < totalPoints.value
+
+  gradientAnimation.value = setInterval(() => {
+    if ((isMoveForward && i >= totalPoints.value) ||
+        (!isMoveForward && i < totalPoints.value)) {
+      clearInterval(gradientAnimation.value)
+      return
+    }
+
+    currentAngle.value = angleOffset + (animateSlice.value * i)
+    gotoPoint()
+
+    i += isMoveForward ? incrementer : -incrementer
+  }, animationIncrements.value)
+}
+
+watch(() => props.totalSteps, (newValue, oldValue) => {
+  changeProgress(true)
+})
+watch(() => props.completedSteps, (newValue, oldValue) => {
+  changeProgress(true)
+})
+watch(() => props.diameter, (newValue, oldValue) => {
+  changeProgress(true)
+})
+watch(() => props.circleWidth, (newValue, oldValue) => {
+  changeProgress(true)
+})
+
+onMounted(() => {
+  changeProgress(false)
+  generatedUid.value = 'progresscircle_' + Math.random().toString(36).substring(2, 9)
+})
+
+</script>
+
 <template>
-  <div class="circle-progress-container" :style="containerStyle">
-    <div class="circle-progress-inner" :style="innerCircleStyle">
+  <div class="progress-circle-container" :style="containerStyle">
+    <div class="progress-circle-inner" :style="innerCircleStyle">
       <span v-if="innerDisplay === 'percent'" :style="percentStyle">{{ finishedPercentageRounded }}</span>
-      <slot v-if="innerDisplay === 'slot' || innerDisplay === ''"></slot>
+      <slot v-else></slot>
     </div>
-    <svg class="circle-progress-bar"
+    <svg class="progress-circle-bar"
          :width="diameter"
          :height="diameter"
          version="1.1"
          xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <radialGradient :id="'radial-gradient' + _uid"
+        <radialGradient :id="'radial-gradient' + generatedUid"
                         :fx="gradient.fx"
                         :fy="gradient.fy"
                         :cx="gradient.cx"
@@ -34,7 +179,7 @@
               :cx="radius"
               :cy="radius"
               :fill="innerColor"
-              :stroke="'url(#radial-gradient' + _uid + ')'"
+              :stroke="'url(#radial-gradient' + generatedUid + ')'"
               :stroke-dasharray="circumference"
               :stroke-dashoffset="circumference"
               stroke-linecap="round"
@@ -43,277 +188,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    diameter: {
-      type: Number,
-      required: false,
-      default: 100
-    },
-    totalSteps: {
-      type: Number,
-      required: true,
-      default: 10
-    },
-    completedSteps: {
-      type: Number,
-      required: true,
-      default: 0
-    },
-    startColor: {
-      type: String,
-      required: false,
-      default: '#FF0000'
-    },
-    stopColor: {
-      type: String,
-      required: false,
-      default: '#0000FF'
-    },
-    circleWidth: {
-      type: Number,
-      required: false,
-      default: 10
-    },
-    animationDuration: {
-      type: Number,
-      required: false,
-      default: 1000
-    },
-    circleColor: {
-      type: String,
-      required: false,
-      default: '#000000'
-    },
-    innerDisplay: {
-      type: String,
-      required: false,
-      default: 'slot'
-    },
-    percentColor: {
-      type: String,
-      required: false,
-      default: 'inherit'
-    },
-    innerColor: {
-      type: String,
-      required: false,
-      default: 'transparent'
-    }
-  },
-
-  data () {
-    return {
-      gradient: {
-        fx: 1,
-        fy: 0.5,
-        cx: 0.5,
-        cy: 0.5,
-        r: 0.65
-      },
-      gradientAnimation: null,
-      currentAngle: 0,
-      strokeDashoffset: 0
-    }
-  },
-
-  computed: {
-    radius () {
-      return this.diameter / 2
-    },
-
-    circumference () {
-      return Math.PI * this.innerCircleDiameter
-    },
-
-    stepSize () {
-      if (this.totalSteps === 0) {
-        return 0
-      }
-
-      return 100 / this.totalSteps
-    },
-
-    finishedPercentage () {
-      return this.stepSize * this.completedSteps
-    },
-
-    finishedPercentageRounded () {
-      return Math.round(this.finishedPercentage)
-    },
-
-    circleSlice () {
-      return 2 * Math.PI / this.totalSteps
-    },
-
-    animateSlice () {
-      return this.circleSlice / this.totalPoints
-    },
-
-    innerCircleDiameter () {
-      return this.diameter - (this.circleWidth * 2)
-    },
-
-    innerCircleRadius () {
-      return this.innerCircleDiameter / 2
-    },
-
-    totalPoints () {
-      return this.animationDuration / this.animationIncrements
-    },
-
-    animationIncrements () {
-      return 1000 / 60
-    },
-
-    hasGradient () {
-      return this.startColor !== this.stopColor
-    },
-
-    containerStyle () {
-      return {
-        height: `${this.diameter}px`,
-        width: `${this.diameter}px`
-      }
-    },
-
-    progressStyle () {
-      return {
-        height: `${this.diameter}px`,
-        width: `${this.diameter}px`,
-        strokeWidth: `${this.circleWidth}px`,
-        strokeDashoffset: this.strokeDashoffset,
-        transition: `stroke-dashoffset ${this.animationDuration}ms linear`
-      }
-    },
-
-    strokeStyle () {
-      return {
-        height: `${this.diameter}px`,
-        width: `${this.diameter}px`,
-        strokeWidth: `${this.circleWidth}px`
-      }
-    },
-
-    percentStyle () {
-      return {
-        fontSize: `${this.diameter / 2}px`,
-        color: `${this.percentColor}`,
-        display: 'block'
-      }
-    },
-
-    innerCircleStyle () {
-      return {
-        width: `${this.innerCircleDiameter}px`
-      }
-    }
-  },
-
-  methods: {
-    getStopPointsOfCircle (steps) {
-      const points = []
-
-      for (let i = 0; i < steps; i++) {
-        const angle = this.circleSlice * i
-        points.push(this.getPointOfCircle(angle))
-      }
-
-      return points
-    },
-
-    getPointOfCircle (angle) {
-      const radius = 0.5
-
-      const x = radius + (radius * Math.cos(angle))
-      const y = radius + (radius * Math.sin(angle))
-
-      return { x, y }
-    },
-
-    gotoPoint () {
-      const point = this.getPointOfCircle(this.currentAngle)
-
-      this.gradient.fx = point.x
-      this.gradient.fy = point.y
-    },
-
-    changeProgress ({ isAnimate = true }) {
-      this.strokeDashoffset = ((100 - this.finishedPercentage) / 100) * this.circumference
-
-      if (this.gradientAnimation) {
-        clearInterval(this.gradientAnimation)
-      }
-
-      if (!isAnimate) {
-        this.gotoNextStep()
-        return
-      }
-
-      const angleOffset = (this.completedSteps - 1) * this.circleSlice
-      let i = (this.currentAngle - angleOffset) / this.animateSlice
-      const incrementer = Math.abs(i - this.totalPoints) / this.totalPoints
-      const isMoveForward = i < this.totalPoints
-
-      this.gradientAnimation = setInterval(() => {
-        if (isMoveForward && i >= this.totalPoints ||
-            !isMoveForward && i < this.totalPoints) {
-          clearInterval(this.gradientAnimation)
-          return
-        }
-
-        this.currentAngle = angleOffset + (this.animateSlice * i)
-        this.gotoPoint()
-
-        i += isMoveForward ? incrementer : -incrementer
-      }, this.animationIncrements)
-    },
-
-    gotoNextStep () {
-      this.currentAngle = this.completedSteps * this.circleSlice
-      this.gotoPoint()
-    }
-  },
-
-  watch: {
-    totalSteps () {
-      this.changeProgress({ isAnimate: true })
-    },
-
-    completedSteps () {
-      this.changeProgress({ isAnimate: true })
-    },
-
-    diameter () {
-      this.changeProgress({ isAnimate: true })
-    },
-
-    circleWidth () {
-      this.changeProgress({ isAnimate: true })
-    }
-  },
-
-  created () {
-    this.changeProgress({ isAnimate: false })
-  }
-}
-</script>
-
 <style>
-.circle-progress-container {
-  position: relative;
-}
-
-.circle-progress-inner {
-  position: absolute;
-  top: 0; right: 0; bottom: 0; left: 0;
-  border-radius: 50%;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
 
 </style>

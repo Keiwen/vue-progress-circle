@@ -13,6 +13,7 @@ const cpAnimationDuration = ref(1000)
 const cpInnerColor = ref('transparent')
 const cpPercentColor = ref('inherit')
 const cpDiameter = ref(200)
+const cpFromBottom = ref(false)
 
 </script>
 
@@ -35,6 +36,7 @@ const cpDiameter = ref(200)
                        :inner-color="cpInnerColor"
                        :total-steps="cpTotalSteps"
                        :inner-display="cpInnerDisplay"
+                       :from-bottom="cpFromBottom"
                        :percent-color="cpPercentColor">
         <p>Total steps: {{ cpTotalSteps }}</p>
         <p>Completed steps: {{ cpCompletedSteps }}</p>
@@ -88,6 +90,9 @@ const cpDiameter = ref(200)
       <label for="cpAnimationDuration">Animation duration:</label>
       <input type="number" v-model="cpAnimationDuration" id="cpAnimationDuration"/>
 
+      <label for="cpFromBottom">From bottom:</label>
+      <input type="checkbox" v-model="cpFromBottom" id="cpFromBottom"/>
+
     </div>
 
     <div class="gallery">
@@ -98,8 +103,8 @@ const cpDiameter = ref(200)
       <progress-circle class="sample1" :completed-steps="9" :total-steps="10" start-color="var(--my-color)" stop-color="var(--my-color)" circle-color="#AAA" inner-color="#222">
         <span style="color: white;">Progress</span>
       </progress-circle>
-      <progress-circle class="sample2" :completed-steps="12" :total-steps="27" start-color="var(--my-color)" stop-color="var(--my-color)" circle-color="transparent" inner-color="#2C3E50" inner-display="percent" percent-color="white"></progress-circle>
-      <progress-circle :completed-steps="38" :total-steps="53" start-color="#2C3E50" stop-color="#BDC3C7" circle-color="#FFF" inner-display="percent" percent-color="#BDC3C7"></progress-circle>
+      <progress-circle class="sample2" :completed-steps="12" :total-steps="27" start-color="var(--my-color)" stop-color="var(--my-color)" circle-color="transparent" inner-color="#2C3E50" inner-display="percent" percent-color="white" :from-bottom="true"></progress-circle>
+      <progress-circle :completed-steps="38" :total-steps="53" start-color="#2C3E50" stop-color="#BDC3C7" circle-color="#FFF" inner-display="percent" percent-color="#BDC3C7" :from-bottom="true"></progress-circle>
 
     </div>
 

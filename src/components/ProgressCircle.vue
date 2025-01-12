@@ -12,7 +12,8 @@ const props = defineProps({
   circleColor: { type: String, default: '#000000' },
   innerDisplay: { type: String, default: 'slot' },
   percentColor: { type: String, default: 'inherit' },
-  innerColor: { type: String, default: 'transparent' }
+  innerColor: { type: String, default: 'transparent' },
+  fromBottom: { type: Boolean, default: false }
 })
 
 const gradient = ref({
@@ -38,6 +39,7 @@ const circleSlice = computed(() => { return (2 * Math.PI / props.totalSteps) })
 const totalPoints = computed(() => { return (props.animationDuration / animationIncrements.value) })
 const animateSlice = computed(() => { return circleSlice.value / totalPoints.value })
 const innerCircleRadius = computed(() => { return innerCircleDiameter.value / 2 })
+const startCircleWithAngle = computed(() => { return props.fromBottom ? 90 : 270 })
 const stepSize = computed(() => {
   if (props.totalSteps === 0) {
     return 0
@@ -174,7 +176,7 @@ onMounted(() => {
               stroke-dashoffset="0"
               stroke-linecap="round"
               :style="strokeStyle"></circle>
-      <circle :transform="'rotate(270, ' + radius + ',' + radius + ')'"
+      <circle :transform="'rotate(' + startCircleWithAngle + ', ' + radius + ',' + radius + ')'"
               :r="innerCircleRadius"
               :cx="radius"
               :cy="radius"

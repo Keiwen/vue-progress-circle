@@ -108,8 +108,8 @@ const cpCircleOrigin = ref('top')
       <progress-circle class="sample1" :completed-steps="9" :total-steps="10" start-color="var(--my-color)" stop-color="var(--my-color)" circle-color="#AAA" inner-color="#222">
         <span style="color: white;">Progress</span>
       </progress-circle>
-      <progress-circle class="sample2" :completed-steps="12" :total-steps="27" start-color="var(--my-color)" stop-color="var(--my-color)" circle-color="transparent" inner-color="#2C3E50" inner-display="percent" percent-color="white" :circle-origin="bottom"></progress-circle>
-      <progress-circle :completed-steps="38" :total-steps="53" start-color="#2C3E50" stop-color="#BDC3C7" circle-color="#FFF" inner-display="percent" percent-color="#BDC3C7" :circle-origin="bottom"></progress-circle>
+      <progress-circle class="sample2" :completed-steps="12" :total-steps="27" start-color="var(--my-color)" stop-color="var(--my-color)" circle-color="transparent" inner-color="#2C3E50" inner-display="percent" percent-color="white" circle-origin="bottom"></progress-circle>
+      <progress-circle :completed-steps="38" :total-steps="53" start-color="#2C3E50" stop-color="#BDC3C7" circle-color="#FFF" inner-display="percent" percent-color="#BDC3C7" circle-origin="bottom"></progress-circle>
 
     </div>
 

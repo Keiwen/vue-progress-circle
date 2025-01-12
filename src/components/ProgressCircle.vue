@@ -13,7 +13,8 @@ const props = defineProps({
   innerDisplay: { type: String, default: 'slot' },
   percentColor: { type: String, default: 'inherit' },
   innerColor: { type: String, default: 'transparent' },
-  circleOrigin: { type: String, default: 'top' }
+  circleOrigin: { type: String, default: 'top' },
+  reverseRotation: { type: Boolean, default: false }
 })
 
 const gradient = ref({
@@ -106,6 +107,7 @@ const gotoNextStep = () => {
 }
 const changeProgress = (isAnimate = true) => {
   strokeDashoffset.value = ((100 - finishedPercentage.value) / 100) * circumference.value
+  if (props.reverseRotation) strokeDashoffset.value = -strokeDashoffset.value
   if (gradientAnimation.value) {
     clearInterval(gradientAnimation.value)
   }
@@ -143,6 +145,9 @@ watch(() => props.diameter, (newValue, oldValue) => {
 })
 watch(() => props.circleWidth, (newValue, oldValue) => {
   changeProgress(true)
+})
+watch(() => props.reverseRotation, (newValue, oldValue) => {
+  changeProgress(false)
 })
 
 onMounted(() => {

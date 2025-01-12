@@ -40,6 +40,7 @@ createApp(App).use(vueProgressCircle);
                  :inner-display="cpInnerDisplay"
                  :percent-color="cpPercentColor"
                  :circle-origin="cpCircleOrigin"
+                 :reverse-rotation="cpReverseRotation"
                  :total-steps="cpTotalSteps">
    <p>Total steps: {{ cpTotalSteps }}</p>
    <p>Completed steps: {{ cpCompletedSteps }}</p>
@@ -47,20 +48,21 @@ createApp(App).use(vueProgressCircle);
 ```
 
 
-| Prop                 | Type |                                                                                                                                             Note |
-|:---------------------| :--- |-------------------------------------------------------------------------------------------------------------------------------------------------:|
-| `completed-steps`    | `number` |                                                                                                          **REQUIRED**: number of completed steps |
-| `total-steps`        | `number` |                                                                                                              **REQUIRED**: number of total steps |
-| `diameter`           | `number` |                                                                                                  (px) diameter of circle component (default 100) |
-| `circle-color`       | `String` |                                                                                             inner circle color (when no progress, default black) |
-| `start-color`        | `String` |                                                                                                     leading color for progress bar (default red) |
-| `stop-color`         | `String` |                                                                                                   trailing color for progress bar (default blue) |
-| `inner-color`        | `String` |                                                                                                    Color inside the circle (default transparent) |
-| `circle-width`       | `number` |                                                                                                                   (px) circle width (default 10) |
-| `animation-duration` | `number` |                                                                                   (ms) duration of animation when progress change (default 1000) |
-| `inner-display`      | `String` | Change inner circle filling. By default or 'slot', it will use provided slot (or nothing). 'Percent' will display progress percent rounded value |
-| `percent-color`      | `String` |                                                               Change color of progress percent if displayed (see inner-display, default inherit) |
-| `circle-origin`      | `String` |                                               Change circle starting point. Accepted values are 'top', 'right', 'bottom', 'left' (default 'top') |
+| Prop                 | Type      |                                                                                                                                             Note |
+|:---------------------|:----------|-------------------------------------------------------------------------------------------------------------------------------------------------:|
+| `completed-steps`    | `number`  |                                                                                                          **REQUIRED**: number of completed steps |
+| `total-steps`        | `number`  |                                                                                                              **REQUIRED**: number of total steps |
+| `diameter`           | `number`  |                                                                                                  (px) diameter of circle component (default 100) |
+| `circle-color`       | `String`  |                                                                                             inner circle color (when no progress, default black) |
+| `start-color`        | `String`  |                                                                                                     leading color for progress bar (default red) |
+| `stop-color`         | `String`  |                                                                                                   trailing color for progress bar (default blue) |
+| `inner-color`        | `String`  |                                                                                                    Color inside the circle (default transparent) |
+| `circle-width`       | `number`  |                                                                                                                   (px) circle width (default 10) |
+| `animation-duration` | `number`  |                                                                                   (ms) duration of animation when progress change (default 1000) |
+| `inner-display`      | `String`  | Change inner circle filling. By default or 'slot', it will use provided slot (or nothing). 'Percent' will display progress percent rounded value |
+| `percent-color`      | `String`  |                                                               Change color of progress percent if displayed (see inner-display, default inherit) |
+| `circle-origin`      | `String`  |                                               Change circle starting point. Accepted values are 'top', 'right', 'bottom', 'left' (default 'top') |
+| `reverse-rotation`   | `Boolean` |                                                                                          Change progress to clockwise rotation (default 'false') |
 
 By default, this component provide a slot where you can insert any html code
 to be displayed inside the circle

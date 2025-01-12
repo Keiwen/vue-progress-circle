@@ -14,7 +14,7 @@ const cpInnerColor = ref('transparent')
 const cpPercentColor = ref('inherit')
 const cpDiameter = ref(200)
 const cpCircleOrigin = ref('top')
-const cpReverseProgress = ref(false)
+const cpReverseRotation = ref(false)
 
 </script>
 
@@ -115,8 +115,8 @@ const cpReverseProgress = ref(false)
       <progress-circle class="sample1" :completed-steps="9" :total-steps="10" start-color="var(--my-color)" stop-color="var(--my-color)" circle-color="#AAA" inner-color="#222">
         <span style="color: white;">Progress</span>
       </progress-circle>
-      <progress-circle class="sample2" :completed-steps="12" :total-steps="27" start-color="var(--my-color)" stop-color="var(--my-color)" circle-color="transparent" inner-color="#2C3E50" inner-display="percent" percent-color="white" circle-origin="bottom" :reverse-rotation="true"></progress-circle>
-      <progress-circle :completed-steps="38" :total-steps="53" start-color="#2C3E50" stop-color="#BDC3C7" circle-color="#FFF" inner-display="percent" percent-color="#BDC3C7" circle-origin="bottom" :reverse-rotation="true"></progress-circle>
+      <progress-circle class="sample2" :completed-steps="12" :total-steps="27" start-color="var(--my-color)" stop-color="var(--my-color)" circle-color="transparent" inner-color="#2C3E50" inner-display="percent" percent-color="white" circle-origin="bottom" :reverse-rotation="true" :after-mount-delay="1000"></progress-circle>
+      <progress-circle :completed-steps="38" :total-steps="53" start-color="#2C3E50" stop-color="#BDC3C7" circle-color="#FFF" inner-display="percent" percent-color="#BDC3C7" circle-origin="bottom" :reverse-rotation="true" :after-mount-delay="1000"></progress-circle>
 
     </div>
 

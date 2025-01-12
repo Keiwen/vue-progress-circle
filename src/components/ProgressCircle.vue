@@ -14,7 +14,8 @@ const props = defineProps({
   percentColor: { type: String, default: 'inherit' },
   innerColor: { type: String, default: 'transparent' },
   circleOrigin: { type: String, default: 'top' },
-  reverseRotation: { type: Boolean, default: false }
+  reverseRotation: { type: Boolean, default: false },
+  afterMountDelay: { type: Number, default: 0 }
 })
 
 const gradient = ref({
@@ -151,8 +152,16 @@ watch(() => props.reverseRotation, (newValue, oldValue) => {
 })
 
 onMounted(() => {
-  changeProgress(false)
   generatedUid.value = 'progresscircle_' + Math.random().toString(36).substring(2, 9)
+  if (props.afterMountDelay) {
+    strokeDashoffset.value = circumference.value
+    if (props.reverseRotation) strokeDashoffset.value = -strokeDashoffset.value
+    setTimeout(() => {
+      changeProgress(false)
+    }, props.afterMountDelay)
+  } else {
+    changeProgress(false)
+  }
 })
 
 </script>

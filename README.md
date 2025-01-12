@@ -41,6 +41,7 @@ createApp(App).use(vueProgressCircle);
                  :percent-color="cpPercentColor"
                  :circle-origin="cpCircleOrigin"
                  :reverse-rotation="cpReverseRotation"
+                 :after-mount-delay="cpAfterMountDelay"
                  :total-steps="cpTotalSteps">
    <p>Total steps: {{ cpTotalSteps }}</p>
    <p>Completed steps: {{ cpCompletedSteps }}</p>
@@ -63,6 +64,7 @@ createApp(App).use(vueProgressCircle);
 | `percent-color`      | `String`  |                                                               Change color of progress percent if displayed (see inner-display, default inherit) |
 | `circle-origin`      | `String`  |                                               Change circle starting point. Accepted values are 'top', 'right', 'bottom', 'left' (default 'top') |
 | `reverse-rotation`   | `Boolean` |                                                                                          Change progress to clockwise rotation (default 'false') |
+| `after-mount-delay`  | `number`  |                                                                              (ms) duration to wait before displaying circle progress (default 0) |
 
 By default, this component provide a slot where you can insert any html code
 to be displayed inside the circle

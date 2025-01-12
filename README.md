@@ -2,25 +2,24 @@
 [![npm](https://img.shields.io/npm/v/vue-progress-circle.svg)](https://www.npmjs.com/package/vue-progress-circle)
 [![npm](https://img.shields.io/npm/dt/vue-progress-circle.svg)](https://www.npmjs.com/package/vue-progress-circle)
 
-Circle progress bar component
+Circle progress bar component for vue3. See versions 1.X for vue2 component.
 
 [Live demo here](https://keiwen.github.io/vue-progress-circle/)
 
 ## Global use
-- npm install
+- npm install in console
 ```
 npm install --save vue-progress-circle
 ```
-- import components
+- import component in your code
 ```
 import { ProgressCircle } from 'vue-progress-circle'
 ```
-- declare use or imported components in your vue script
+you may also import it globally in your app
 ```
-export default {
-    components: { ProgressCircle },
-    methods: ...
-}
+import { createApp } from "vue";
+import vueProgressCircle from "vue-progress-circle";
+createApp(App).use(vueProgressCircle);
 ```
 - Use components as described below
 
@@ -30,24 +29,24 @@ export default {
 <progress-circle completed-steps="5" total-steps="10"></progress-circle>
 ```
 ```
-<progress-circle :diameter="cp_diameter"
-                 :completed-steps="cp_completedSteps"
-                 :circle-color="cp_circleColor"
-                 :start-color="cp_startColor"
-                 :stop-color="cp_stopColor"
-                 :circle-width="cp_circleWidth"
-                 :animation-duration="cp_animationDuration"
-                 :inner-color="cp_innerColor"
-                 :inner-display="cp_innerDisplay"
-                 :percent-color="cp_percentColor"
-                 :total-steps="cp_totalSteps">
-   <p>Total steps: {{ cp_totalSteps }}</p>
-   <p>Completed steps: {{ cp_completedSteps }}</p>
+<progress-circle :diameter="cpDiameter"
+                 :completed-steps="cpCompletedSteps"
+                 :circle-color="cpCircleColor"
+                 :start-color="cpStartColor"
+                 :stop-color="cpStopColor"
+                 :circle-width="cpCircleWidth"
+                 :animation-duration="cpAnimationDuration"
+                 :inner-color="cpInnerColor"
+                 :inner-display="cpInnerDisplay"
+                 :percent-color="cpPercentColor"
+                 :total-steps="cpTotalSteps">
+   <p>Total steps: {{ cpTotalSteps }}</p>
+   <p>Completed steps: {{ cpCompletedSteps }}</p>
 </progress-circle>
 ```
 
 
-| Prop | Type | Note
+| Prop | Type | Note |
 | :--- | :--- | ---: |
 | `completed-steps` | `number` | **REQUIRED**: number of completed steps |
 | `total-steps` | `number` | **REQUIRED**: number of total steps |
@@ -61,12 +60,39 @@ export default {
 | `inner-display` | `String` | Change inner circle filling. By default or 'slot', it will use provided slot (or nothing). 'Percent' will display progress percent rounded value |
 | `percent-color` | `String` | Change color of progress percent if displayed (see inner-display, default inherit) |
 
-BY default, this component provide a slot where you can insert any html code
+By default, this component provide a slot where you can insert any html code
 to be displayed inside the circle
 
+You may use CSS variables for colors,
+and potentially override it easily using a class on the component.
+Declare component usage like
+```
+<progress-circle class="sample1"
+    :completed-steps="5" :total-steps="10"
+    start-color="var(--my-color)"
+    stop-color="var(--my-color)">
+</progress-circle>
+<progress-circle class="sample2"
+    :completed-steps="5" :total-steps="10"
+    start-color="var(--my-color)"
+    stop-color="var(--my-color)">
+</progress-circle>
+```
+And then define CSS variables for each class
+```
+.sample1 {
+  --my-color: fuchsia;
+}
+.sample2 {
+  --my-color: green;
+}
+```
+Each component will have it's own color!
+
 ## Contribution
+This library is managed with vue-CLI
 - Fork the repository
 - Run `npm install`
-- You can run `npm run dev`, site is at http://localhost:8081.
+- You can run `npm run serve`, the script will start the mini demo application
 - Do your stuff
 - When you're done, run `npm run build` command and commit your work for a pull request.

@@ -1,6 +1,11 @@
 # vue-progress-circle
-[![npm](https://img.shields.io/npm/v/vue-progress-circle.svg)](https://www.npmjs.com/package/vue-progress-circle)
-[![npm](https://img.shields.io/npm/dt/vue-progress-circle.svg)](https://www.npmjs.com/package/vue-progress-circle)
+[![npm version](https://img.shields.io/npm/v/vue-progress-circle?logo=npm)](https://www.npmjs.com/package/vue-progress-circle)
+[![npm downloads](https://img.shields.io/npm/dt/vue-progress-circle?logo=npm&color=CB3837)](https://www.npmjs.com/package/vue-progress-circle)
+[![npm downloads](https://img.shields.io/npm/unpacked-size/vue-progress-circle?logo=npm&color=CB3837)](https://www.npmjs.com/package/vue-progress-circle)
+
+![vue version](https://img.shields.io/badge/vue.js-3.x-4FC08D?logo=vue.js)
+![main language](https://img.shields.io/badge/language-Javascript-yellow)
+![github stars](https://img.shields.io/github/stars/keiwen/vue-progress-circle)
 
 Circle progress bar component for vue3. See versions 1.X for vue2 component.
 
